@@ -46,8 +46,8 @@ class Color < ActiveRecord
     end
   end
 
-  def description
-    "#{self.to_s} is a beautiful color!"
+  def human_description
+    "The color #{self.to_s}"
   end
 end
 ````
