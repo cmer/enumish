@@ -1,8 +1,8 @@
 # Enumish
 
-Enumish is "Enum for ActiveRecord".
+Enumish is "Database-backed Enum for ActiveRecord".
 
-It gives you the ability to create Enum-like values directly in the database.
+It gives you the ability to create Enum-like properties directly in the database.
 
 ## Simple Example
 
@@ -43,6 +43,10 @@ class Color < ActiveRecord
       Color.rank(:position).where(enabled: true).map do |s|
         { s.human_description => s.id }
       end
+    end
+
+    def all_primary
+      Color.rank(:position).where(enabled: true).where(primary: true)
     end
   end
 
@@ -107,6 +111,34 @@ class Color < ActiveRecord
   end
 end
 ````
+
+## Why not just use ActiveRecord::Enum?
+
+Glad you asked! [`ActiveRecord::Enum`](http://api.rubyonrails.org/classes/ActiveRecord/Enum.html)
+(AR::E going forward) is an option you should definitely consider if it fits your needs. I wrote
+Enumish because I needed the following capabilities:
+
+- Ability to have more than one enum field per model.
+
+  For example, a `Car` model could have the following Enumish properties:
+  `exterior_color`, `interior_color`, `model`, `transmission`. This would not be possible
+  with vanilla AR::E.
+
+- Database-backed properties. There are many benefits to this. Notably, Enumish allows you to:
+
+    - Maintain an ever-evolving list of properties directly in the database instead of changing
+      and potentially breaking code. Your marketing team will love this!
+    - Keep a human-readable version of your Enumish properties in the database for your users
+      to see, or for your eyes only. Just add a `description` column.
+    - Enable or disable some properties. Just add an `enabled` column.
+    - Sort how properties are displayed to end-users. Pro-tip, just use
+      [`RankedModel`](https://github.com/mixonic/ranked-model).
+    - Limit possible Enumish properties under different circumstances. For example, a car from 2015
+      might have different color options than a car from 2016. Or in the example above, I have
+      an `.all_primary` method that only returns primary colors.
+    - Perform database `JOIN`s between your model and Enumish models.
+    - Maintain data integrity between your models and Enumish models. It's all just SQL after all.
+
 
 ## Installation
 
