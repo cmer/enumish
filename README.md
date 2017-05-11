@@ -4,6 +4,8 @@ Enumish is "Database-backed Enum for ActiveRecord".
 
 It gives you the ability to create Enum-like properties directly in the database.
 
+[![Build Status](https://travis-ci.org/cmer/enumish.svg?branch=master)](https://travis-ci.org/cmer/enumish)
+
 ## Simple Example
 
 Given a model:
