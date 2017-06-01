@@ -22,7 +22,7 @@ RSpec.describe Enumish do
   describe ".<enum_value>" do
     before { friendly && jackass }
 
-    it "returns the correct Enumish row", :focus do
+    it "returns the correct Enumish row" do
       expect(Dummy.friendly.id).to eq friendly.id
       expect(Dummy.jackass.id).to eq jackass.id
     end
@@ -37,6 +37,12 @@ RSpec.describe Enumish do
     it "returns false when not given the correct row" do
       expect(jackass.friendly?).to eq false
       expect(friendly.jackass?).to eq false
+    end
+  end
+
+  describe "#<non-existing-enum-value>?" do
+    it "raises NoMethodError" do
+      expect { friendly.does_not_exist? }.to raise_error(NoMethodError)
     end
   end
 
